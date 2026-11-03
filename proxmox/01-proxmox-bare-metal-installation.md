@@ -33,8 +33,6 @@ Before installing Proxmox, I backed up:
 - Windows drivers
 - Any important personal files
 
-## Backup 
-
 ## Windows Backup Before Proxmox Installation
 
 Before wiping Windows from the TRIGKEY, I created a backup of the important Windows information and files I might need later.
