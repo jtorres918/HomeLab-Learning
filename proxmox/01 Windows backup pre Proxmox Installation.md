@@ -2,7 +2,7 @@
 
 ## Goal
 
-Install Proxmox VE directly on the TRIGKEY and prepare it as the primary hypervisor for the home lab.
+Backup Windows in preparation to intall Proxmox VE directly on the TRIGKEY and prepare it as the primary hypervisor for the home lab.
 
 ## Hardware
 
