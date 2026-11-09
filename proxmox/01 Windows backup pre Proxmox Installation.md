@@ -167,4 +167,4 @@ Before wiping Windows, I verified that:
 
 ## What I Learned
 
-_To be completed after the project._
+_To be completed after the project._ 
