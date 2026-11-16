@@ -369,33 +369,55 @@ Checking the system's running state and network configuration revealed the cause
 
 ---
 
-## 11. Additional Network Observation
+## 11. Verify Proxmox Management IP and MAC Address
 
-During router administration, an address of `192.168.1.200` was displayed for a device named `DESKTOP-AAPKA7U` with MAC address `B0:41:6F:12:D3:A4`.
+During router administration, an entry at `192.168.1.200` was displayed under the device name `DESKTOP-AAPKA7U` with MAC address `B0:41:6F:12:D3:A4`.
 
-This IP is also the configured Proxmox management address.
+This raised a question because `192.168.1.200` is also the Proxmox management IP.
 
-The observation requires further investigation to determine whether the router's device information reflects the Proxmox host, a previously identified computer, or a potential addressing conflict.
+### Verification
 
-No duplicate IP conflict has been confirmed.
+Opened the Proxmox host shell and ran:
 
-The existing Proxmox network configuration should not be changed until the device's identity is verified.
+```bash
+cat /sys/class/net/nic0/address
+```
+
+The physical interface MAC address matched the router entry.
+
+| Setting | Verified value |
+|---|---|
+| Proxmox management IP | `192.168.1.200` |
+| Proxmox Ethernet interface | `nic0` |
+| Interface MAC address | `B0:41:6F:12:D3:A4` |
+| Router-displayed name | `DESKTOP-AAPKA7U` |
+| Proxmox hostname | `pve` |
+
+### Conclusion
+
+The router's `.200` device entry refers to the physical Ethernet interface used by the Proxmox host. Its device name may be an older cached name from before Windows was replaced by Proxmox.
+
+The matching MAC address resolved the device-identity concern. There is no evidence from this check of a second device using Proxmox's IP.
+
+No router or Proxmox address changes were needed.
 
 ---
 
-## 12. Future Startup Configuration
+## 12. Enable Automatic Ubuntu VM Startup
 
-The power outage also highlighted the need to configure the VM's startup behavior.
+The outage revealed that the Proxmox host could boot while Ubuntu VM 100 remained stopped.
 
-Planned Proxmox configuration:
+Configured and confirmed:
 
-`VM 100 → Options → Start at boot`
+`VM 100 → Options → Start at boot → Yes`
 
-This setting allows Proxmox to automatically start the VM during host startup when enabled.
+### Result
 
-At the time of this documentation, the setting still requires confirmation.
+Ubuntu VM 100 is configured to start automatically when the Proxmox host boots.
 
-Automatic startup is not a substitute for reliable power protection or tested recovery procedures.
+This setting does not require restarting the VM immediately. Automatic startup has been configured, but behavior after another host reboot has not yet been separately tested.
+
+Automatic startup does not replace power protection, backups, or a tested recovery process.
 
 ---
 
@@ -425,8 +447,8 @@ Automatic startup is not a substitute for reliable power protection or tested re
 - [x] Windows SSH configuration updated.
 - [x] `ssh ubuntu-lab` connection verified.
 - [ ] Confirm persistent reservation after a future DHCP renewal.
-- [ ] Confirm or enable Proxmox VM Start at boot.
-- [ ] Investigate `192.168.1.200` device identity.
+- [x] Enabled Proxmox VM 100 Start at boot.
+- [x] Verified Proxmox physical MAC address matches the router's device entry for `192.168.1.200`.
 - [ ] Consider a UPS for power outage protection.
 
 ---
@@ -460,4 +482,4 @@ Secure SSH access was restored, a DHCP reservation was configured on the NETGEAR
 **SSH shortcut:** `ssh ubuntu-lab`  
 **Status:** Operational
 
-**Next Task:** Investigate the identity of the device displayed at `192.168.1.200` and verify that the Proxmox management IP does not conflict with another device.
+**Next Task:** Create and verify a Proxmox backup of Ubuntu VM 100, and test startup behavior during a future planned host reboot.
