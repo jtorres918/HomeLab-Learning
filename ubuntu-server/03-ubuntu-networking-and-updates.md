@@ -36,11 +36,14 @@ All commands were performed against the Ubuntu VM unless otherwise noted.
 |---|---|---|
 | Netgear Nighthawk RAX70 | `192.168.1.1` | Router / default gateway |
 | Proxmox host | `192.168.1.200` | Virtualization server |
-| Ubuntu Server VM 100 | `192.168.1.17` | Linux virtual machine |
+| Ubuntu Server VM 100 | `192.168.1.22` | Linux virtual machine (current DHCP reservation) |
 | Windows laptop | `192.168.1.12` | Administration workstation |
 | Local subnet | `192.168.1.0/24` | Home network |
 
 The Ubuntu Server virtual machine runs inside Proxmox, but it has its own IP address and network identity.
+
+> **Current network update — November 16, 2026:** Ubuntu VM 100 originally used the DHCP-assigned address `192.168.1.17`. After a power outage it received `192.168.1.22`, which is now reserved on the NETGEAR RAX70 for MAC address `BC:24:11:23:80:D9`. Historical installation commands and captured output showing `.17` are intentionally preserved. The current address for SSH and lab connectivity is `192.168.1.22/24`.
+
 
 ### Network Path
 
@@ -61,7 +64,7 @@ Proxmox Host: 192.168.1.200
        | Virtual Bridge: vmbr0
        |
 Ubuntu Server VM 100
-192.168.1.17
+192.168.1.22
 Interface: ens18
 ```
 
@@ -71,11 +74,13 @@ Interface: ens18
 
 ## 3. Understanding IPv4 Addresses
 
-Ubuntu's IPv4 address is:
+At the time of this original networking exercise, Ubuntu's IPv4 address was:
 
 ```text
 192.168.1.17/24
 ```
+
+The current reserved DHCP address is `192.168.1.22/24`.
 
 An IPv4 address contains 32 bits divided into four groups of eight bits, called octets.
 
@@ -103,7 +108,7 @@ The last octet identifies the host.
 
 | Property | Value |
 |---|---|
-| Ubuntu IPv4 | `192.168.1.17` |
+| Ubuntu IPv4 (current) | `192.168.1.22` |
 | Network address | `192.168.1.0` |
 | Prefix length | `/24` |
 | Subnet mask | `255.255.255.0` |
@@ -919,7 +924,7 @@ Ubuntu Server VM 100 is running successfully on Proxmox.
 
 Networking is functioning through the `ens18` virtual interface connected to `vmbr0`.
 
-Ubuntu has a DHCP-assigned address of `192.168.1.17/24` and uses the Netgear RAX70 at `192.168.1.1` as its default gateway.
+At the time of this exercise, Ubuntu had the DHCP-assigned address `192.168.1.17/24`. Following the November 16 recovery and DHCP reservation, its current address is `192.168.1.22/24`, with the Netgear RAX70 at `192.168.1.1` as its default gateway.
 
 System package upgrades completed successfully, no reboot was required at the time of verification, and Ubuntu Pro security services were confirmed as enabled.
 
