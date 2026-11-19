@@ -613,4 +613,4 @@ Filesystem coordination improves backup consistency but does not guarantee full 
 
 ---
 
-Next Project: Restore the November 19 backup to a separate test VM, verify successful recovery, and plan independent backup storage.
+**Next Project:** Restore the November 19 backup to a separate test VM, verify successful recovery, and plan independent backup storage.
