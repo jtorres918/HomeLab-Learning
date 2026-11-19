@@ -613,4 +613,4 @@ Filesystem coordination improves backup consistency but does not guarantee full 
 
 ---
 
-**Next Project:** Verify guest-agent integration during a new Proxmox backup, test backup restoration, and continue preparing the Ubuntu environment for Docker and future cybersecurity applications.
+Next Project: Restore the November 19 backup to a separate test VM, verify successful recovery, and plan independent backup storage.
