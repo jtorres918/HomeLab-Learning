@@ -44,7 +44,7 @@ This exercise introduced important Linux administration and cybersecurity concep
 | Proxmox IP | `192.168.1.200` |
 | Ubuntu VM | VM 100 |
 | Ubuntu hostname | `ubuntu-server` |
-| Ubuntu IP | `192.168.1.17` |
+| Ubuntu IP (current) | `192.168.1.22` |
 | Ubuntu user | `jansen` |
 | Network interface | `ens18` |
 | Windows client | Windows 11 |
@@ -53,6 +53,9 @@ This exercise introduced important Linux administration and cybersecurity concep
 | Key algorithm | ED25519 |
 
 The Ubuntu VM connects to the home LAN through the Proxmox `vmbr0` bridge.
+
+> **Current network update — November 16, 2026:** Ubuntu VM 100 originally used the DHCP-assigned address `192.168.1.17`. After a power outage it received `192.168.1.22`, which is now reserved on the NETGEAR RAX70 for MAC address `BC:24:11:23:80:D9`. Historical installation commands and captured output showing `.17` are intentionally preserved. The current address for SSH and lab connectivity is `192.168.1.22/24`.
+
 
 All SSH configuration was performed on the local home network.
 
@@ -101,7 +104,7 @@ SSH Client
       |
       v
 Ubuntu Server VM 100
-192.168.1.17
+192.168.1.22
 OpenSSH Server
 ```
 
@@ -526,7 +529,7 @@ False
 
 The SSH configuration file did not yet exist.
 
-### Configuration Added
+### Configuration Added (original, November 9)
 
 ```sshconfig
 Host ubuntu-lab
@@ -1281,6 +1284,8 @@ The server can now be accessed from Windows Terminal with:
 ```powershell
 ssh ubuntu-lab
 ```
+
+The current Windows SSH alias uses `HostName 192.168.1.22`; the original `.17` commands above document the initial setup. See `05-power-outage-recovery-and-dhcp-reservation.md` for the change history.
 
 **Final Status: SSH key-based remote administration configured, hardened, and verified.**
 
