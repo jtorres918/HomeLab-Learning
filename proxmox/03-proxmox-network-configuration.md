@@ -58,10 +58,13 @@ Proxmox connects to the home network using an Ethernet interface.
               Virtual Machines
                      |
                Ubuntu VM 100
-              192.168.1.17
+              192.168.1.22
 ```
 
 The Ubuntu VM was added after the Proxmox network was configured.
+
+> **Current network update — November 16, 2026:** Ubuntu VM 100 originally used the DHCP-assigned address `192.168.1.17`. After a power outage it received `192.168.1.22`, which is now reserved on the NETGEAR RAX70 for MAC address `BC:24:11:23:80:D9`. Historical installation commands and captured output showing `.17` are intentionally preserved. The current address for SSH and lab connectivity is `192.168.1.22/24`.
+
 
 The diagram represents network connectivity. Devices on the same LAN can exchange traffic without being routed through the default gateway.
 
@@ -229,7 +232,7 @@ For example, when Proxmox needs to access an internet software repository, the t
 
 **Local destination:**
 
-Proxmox `192.168.1.200` communicates with Ubuntu `192.168.1.17`.
+Proxmox `192.168.1.200` communicates with Ubuntu `192.168.1.22`.
 
 Both are on `192.168.1.0/24`.
 
