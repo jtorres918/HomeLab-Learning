@@ -62,6 +62,9 @@ The router provides DHCP services, automatically assigning network addresses to 
 
 The Proxmox host uses a statically configured IP address, while the new Ubuntu VM initially receives its address through DHCP.
 
+> **Current network update — November 16, 2026:** Ubuntu VM 100 originally used the DHCP-assigned address `192.168.1.17`. After a power outage it received `192.168.1.22`, which is now reserved on the NETGEAR RAX70 for MAC address `BC:24:11:23:80:D9`. Historical installation commands and captured output showing `.17` are intentionally preserved. The current address for SSH and lab connectivity is `192.168.1.22/24`.
+
+
 ---
 
 ## 3. Download Ubuntu Server
