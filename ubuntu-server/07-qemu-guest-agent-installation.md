@@ -525,6 +525,90 @@ A full VM shutdown and startup resolved the issue.
 
 Proxmox now displays Ubuntu's network information through the guest-agent integration, and the guest-agent service is running successfully inside Ubuntu.
 
+## 18. QEMU Guest Agent Backup Verification
+
+**Date:** November 19, 2026  
+**VM:** 100 - ubuntu-server  
+**Result:** Successful
+
+### Objective
+
+Verify that Proxmox uses the QEMU Guest Agent to coordinate filesystem operations during a live virtual machine backup.
+
+### Backup Configuration
+
+| Setting | Value |
+|---|---|
+| Storage | local |
+| Mode | Snapshot |
+| Compression | ZSTD |
+| Protected | No |
+| Virtual disk | 32 GiB |
+| Guest agent | Enabled |
+
+### Procedure
+
+1. Confirmed Ubuntu VM 100 was running.
+2. Opened `VM 100 → Backup → Backup now`.
+3. Selected local storage, Snapshot mode, and ZSTD compression.
+4. Started the backup.
+5. Reviewed the completed task log.
+
+### Guest-Agent Verification
+
+The Proxmox backup log displayed:
+
+```text
+INFO: issuing guest-agent 'fs-freeze' command
+INFO: starting backup via QMP command
+INFO: issuing guest-agent 'fs-thaw' command
+```
+
+These messages confirmed that Proxmox issued filesystem freeze and thaw commands through the QEMU Guest Agent during the backup operation.
+
+### Backup Results
+
+| Property | Result |
+|---|---|
+| Backup date | November 19, 2026 |
+| Backup filename | vzdump-qemu-100-2026_11_19-09_55_35.vma.zst |
+| Backup duration | 22 seconds |
+| Archive size reported | 2.12 GB |
+| Filesystem freeze/thaw | Commands issued |
+| Backup task status | TASK OK |
+
+### Comparison With Initial Backup
+
+The first backup, completed November 16, 2026, skipped guest filesystem freezing because the guest-agent integration was not yet configured.
+
+The November 19 backup successfully issued filesystem freeze/thaw commands through the guest agent.
+
+This provides evidence that the guest-agent integration is working during backup operations.
+
+Filesystem coordination improves backup consistency but does not guarantee full application consistency for every workload.
+
+### Lessons Learned
+
+- A successful backup does not automatically confirm that the guest agent was used.
+- Proxmox task logs provide evidence of guest-agent operations.
+- Filesystem freeze and thaw coordinate writes around the backup snapshot.
+- Backup consistency is important when protecting running systems.
+- A completed backup must still be tested through restoration to verify recoverability.
+
+### Verification Checklist
+
+- [x] QEMU Guest Agent installed and running.
+- [x] Proxmox guest-agent communication confirmed.
+- [x] Second snapshot backup completed.
+- [x] Filesystem freeze command observed.
+- [x] Filesystem thaw command observed.
+- [x] Backup completed with TASK OK.
+- [ ] Restore backup to a separate test VM.
+- [ ] Verify restored operating system and files.
+- [ ] Configure independent backup storage.
+
+**Final Result:** QEMU Guest Agent functionality verified during a successful Proxmox backup.
+
 **Final Status: QEMU Guest Agent operational.**
 
 ---
